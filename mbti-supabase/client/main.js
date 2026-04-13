@@ -1,8 +1,8 @@
-import './style.css'
+import "./style.css";
 
-document.querySelector('#app').innerHTML = `
+document.querySelector("#app").innerHTML = `
   <div>
-    <h1>MBTI App</h1>
+    <h1>xfti App</h1>
     <p>Hello World!</p>
   </div>
-`
+`;
