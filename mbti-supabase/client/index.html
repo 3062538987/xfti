@@ -1,0 +1,696 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>XFTI 消费人格测试</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          "Helvetica Neue",
+          sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      /* 卡片通用样式 */
+      .card {
+        background: white;
+        border-radius: 32px;
+        padding: 32px 24px;
+        box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.2);
+        margin-bottom: 20px;
+      }
+
+      /* 首页样式 */
+      .title {
+        font-size: 48px;
+        font-weight: 800;
+        text-align: center;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 16px;
+      }
+
+      .subtitle {
+        text-align: center;
+        color: #666;
+        margin-bottom: 32px;
+        font-size: 18px;
+      }
+
+      .btn {
+        display: block;
+        width: 100%;
+        padding: 16px;
+        border: none;
+        border-radius: 48px;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-align: center;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: scale(0.98);
+        opacity: 0.9;
+      }
+
+      .btn-outline {
+        background: white;
+        border: 2px solid #667eea;
+        color: #667eea;
+      }
+
+      /* 测试页样式 */
+      .progress {
+        background: #e0e0e0;
+        border-radius: 20px;
+        height: 8px;
+        margin-bottom: 24px;
+        overflow: hidden;
+      }
+
+      .progress-bar {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        height: 100%;
+        border-radius: 20px;
+        transition: width 0.3s ease;
+      }
+
+      .question-text {
+        font-size: 22px;
+        font-weight: 600;
+        margin-bottom: 32px;
+        line-height: 1.4;
+      }
+
+      .option {
+        background: #f5f5f5;
+        padding: 16px;
+        border-radius: 20px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        transition: all 0.2s;
+        border: 2px solid transparent;
+      }
+
+      .option:hover {
+        background: #eeeeee;
+      }
+
+      .option.selected {
+        background: #e8e0ff;
+        border-color: #667eea;
+      }
+
+      .nav-buttons {
+        display: flex;
+        gap: 12px;
+        margin-top: 24px;
+      }
+
+      /* 结果页样式 */
+      .result-type {
+        font-size: 36px;
+        font-weight: 800;
+        text-align: center;
+        color: #667eea;
+        margin-bottom: 16px;
+      }
+
+      .result-desc {
+        font-size: 16px;
+        line-height: 1.6;
+        color: #333;
+        white-space: pre-wrap;
+      }
+
+      .restart-btn {
+        margin-top: 24px;
+      }
+
+      /* 辅助类 */
+      .hidden {
+        display: none;
+      }
+
+      .text-center {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container" id="app">
+      <!-- 首页 -->
+      <div id="homePage" class="card">
+        <div class="title">XFTI</div>
+        <div class="subtitle">钱辈，请和我交往吧！</div>
+        <div
+          class="text-center"
+          style="margin-bottom: 32px; color: #888; font-size: 14px"
+        >
+          14题 · 测测你的消费人格
+        </div>
+        <button class="btn btn-primary" id="startBtn">开始测试</button>
+      </div>
+
+      <!-- 测试页 -->
+      <div id="testPage" class="card hidden">
+        <div class="progress">
+          <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+        </div>
+        <div class="question-text" id="questionText"></div>
+        <div id="optionsContainer"></div>
+        <div class="nav-buttons">
+          <button class="btn btn-outline" id="prevBtn" style="flex: 1">
+            上一题
+          </button>
+          <button class="btn btn-primary" id="nextBtn" style="flex: 2">
+            下一题
+          </button>
+        </div>
+      </div>
+
+      <!-- 结果页 -->
+      <div id="resultPage" class="card hidden">
+        <div class="result-type" id="resultType"></div>
+        <div class="result-desc" id="resultDesc"></div>
+        <button class="btn btn-primary restart-btn" id="restartBtn">
+          重新测试
+        </button>
+      </div>
+    </div>
+
+    <script>
+      // ==================== 题库数据（根据你的文案整理）====================
+      const questions = [
+        {
+          id: 1,
+          text: "你在直播间看到'最后3件！限时5折！'，而这个东西你并不需要，你会？",
+          options: [
+            {
+              value: 1,
+              label:
+                "直接划走，不看就不买，再点一个不感兴趣，今天他说只剩三件，明天再来他还是只剩三件，都是营销手段",
+            },
+            {
+              value: 2,
+              label:
+                "犹豫一下，在直播间观望许久，实在是舍弃不了这个五折，但是又觉得这个东西并不实用，但最终没买",
+            },
+            {
+              value: 3,
+              label:
+                "先加购，放在购物车里和自己深情对望，等主播喊'没了'就冲动下单",
+            },
+            { value: 4, label: "立马抢，有便宜不占王八蛋" },
+          ],
+        },
+        {
+          id: 2,
+          text: "你妈说你买的一箱临期牛奶快过期了，你的反应是？",
+          options: [
+            {
+              value: 1,
+              label:
+                "每天多喝两杯，绝不浪费，宁愿窜到坑里也不能倒进河里，自己丢东西的时候想想那些吃不起饭的非洲小孩!",
+            },
+            {
+              value: 2,
+              label: "做成酸奶或甜品消耗掉,既可以自己吃还可以送人卖一个人情",
+            },
+            {
+              value: 3,
+              label:
+                "想到自己当初为了省几块钱买的临期，没想到最后还浪费了更多，后悔贪便宜，下次不买了",
+            },
+            {
+              value: 4,
+              label:
+                "无所谓，过期就扔，再买新的，要不然不小心吃了过期食品伤害更大",
+            },
+          ],
+        },
+        {
+          id: 3,
+          text: "你报了一个健身班，花了2000元，但去了三次就不想去了，你会？",
+          options: [
+            { value: 1, label: "逼自己去，不能让钱白花，那可是两千块" },
+            { value: 2, label: "尝试转让或退款，方法总比困难多" },
+            { value: 3, label: "算了，就当买了教训，下次再也不办健身卡" },
+            {
+              value: 4,
+              label: "不去就不去，开心就好，要不然累到了自己还得花钱再安慰自己",
+            },
+          ],
+        },
+        {
+          id: 4,
+          text: "你发现同一款手机，官方旗舰店卖5999，拼多多百亿补贴只要5199，但担心是后封机，你会？",
+          options: [
+            {
+              value: 1,
+              label:
+                "多花800买个安心，去官方店，电子产品就不要追求性价比了，要不然花了钱又吃了亏",
+            },
+            {
+              value: 2,
+              label: "查大量测评，确认百亿补贴靠谱再买，多看看总没问题",
+            },
+            {
+              value: 3,
+              label:
+                "买百亿补贴，赌一把运气，那可是八百块，而且那么多人都买了肯定没问题",
+            },
+            { value: 4, label: "哪个便宜买哪个，反正我也用不出来好坏" },
+          ],
+        },
+        {
+          id: 5,
+          text: "深夜刷抖音，你看到一条知乎短文的解说视频，看到高潮部分没了后续，你心急如焚，但你发现想看原文要花9块9买会员。你会？",
+          options: [
+            {
+              value: 1,
+              label:
+                "9块9也是钱，我在抖音、B站、小红书上到处搜，总能找到免费完整版",
+            },
+            {
+              value: 2,
+              label: "先收藏，等哪天实在没事干了再决定要不要花这个钱",
+            },
+            { value: 3, label: "犹豫一下，最后还是买了，毕竟就一杯奶茶钱" },
+            {
+              value: 4,
+              label:
+                "立刻付款！知识付费是对创作者的尊重，9块9买不了吃亏，而且日后还能继续用",
+            },
+          ],
+        },
+        {
+          id: 6,
+          text: "深夜，你在直播间刷到了一件超酷的衣服，远超你平常的购物标准，而且你并不需要这件衣服，但是那一瞬间你脑子里浮现了自己穿上这件衣服帅气的模样，那一刻你通常会？",
+          options: [
+            {
+              value: 1,
+              label:
+                "根本不买，只买对的不买贵的，我连直播间都不看，绝不给自己后悔的机会",
+            },
+            {
+              value: 2,
+              label:
+                "偶尔会冲动，在自己美好的幻想中激情下单，但大部分时候能忍住",
+            },
+            {
+              value: 3,
+              label:
+                "经常买完就后悔，早上醒来火速申请退货，发誓以后再也不干这种事情",
+            },
+            {
+              value: 4,
+              label: "从来不退，买都买了，穿就是了，后悔那是以后的事",
+            },
+          ],
+        },
+        {
+          id: 7,
+          text: "你自己平时吃饭点外卖超过15块都要犹豫半天，但你喜欢的人（对象/暗恋的人）随口说了一句'好想要那个399的xx'，你会？",
+          options: [
+            { value: 1, label: "我自己都舍不得吃，凭什么给他花？" },
+            {
+              value: 2,
+              label:
+                "看情况，如果他对我也有差不多的付出，我可以考虑，反正有来有往也不算亏本呢",
+            },
+            {
+              value: 3,
+              label:
+                "咬咬牙买了，大不了省点，对喜欢的人哪有不花钱的，看到他开心我就值了",
+            },
+            {
+              value: 4,
+              label:
+                "毫不犹豫下单！故有周幽王烽火戏诸侯今有我千金博美人一笑，看到宝宝惊喜的崇拜我的样子一切都值得了",
+            },
+          ],
+        },
+        {
+          id: 8,
+          text: "你大学期间，平时舍不得吃舍不得喝，连奶茶都戒了，你攒钱是为了？",
+          options: [
+            {
+              value: 1,
+              label: "不为什么，就是喜欢看着银行卡余额增长，有安全感",
+            },
+            { value: 2, label: "为了毕业后的租房押金或者应急用" },
+            {
+              value: 3,
+              label: "想在大学期间买一辆车（哪怕是二手），出行方便又拉风",
+            },
+            { value: 4, label: "买最新款iPhone、看演唱会或者旅游，享受当下" },
+          ],
+        },
+        {
+          id: 9,
+          text: "你追一部小说或者电视剧，发现正版平台要充会员，网上到处都是盗版资源，你会？",
+          options: [
+            {
+              value: 1,
+              label:
+                "坚决看盗版，能省一分是一分，版权费又不进我口袋，澳门新葡京我来了",
+            },
+            {
+              value: 2,
+              label:
+                "先找盗版，如果实在找不到或者画质太差，再考虑充会员，看看有没有什么学生优惠或者pdd下单更便宜，实在不行和人拼一个呗",
+            },
+            { value: 3, label: "看几集盗版觉得不错，就去补个正版会员支持一下" },
+            { value: 4, label: "绝对看正版，我懒得到处去找盗版" },
+          ],
+        },
+        {
+          id: 10,
+          text: "你在网上看到一个很贵的付费网课（比如1999元），但你知道拼多多上几块钱就能买到盗版录播，你会？",
+          options: [
+            {
+              value: 1,
+              label:
+                "买盗版，反正内容一样，省下的钱能吃好多顿饭，我又不是钱多的花不出去",
+            },
+            {
+              value: 2,
+              label: "先找免费资源，实在没有就买盗版，绝对不会花1999",
+            },
+            {
+              value: 3,
+              label:
+                "犹豫很久，最后买了正版，安慰自己说'这是投资'，而且万一买了正版还能获得更多额外的礼物呢",
+            },
+            {
+              value: 4,
+              label: "必须买正版！还要买官方教材，祈求版权之神保佑我学有所成",
+            },
+          ],
+        },
+        {
+          id: 11,
+          text: "你朋友说你是'那种会为熊大快跑冲钱的人'，意思是你会为了游戏里一个皮肤、一个道具或者一个虚拟称号疯狂氪金。你真实的想法是？",
+          options: [
+            {
+              value: 1,
+              label: "玩游戏从不充钱，靠肝就完了，游戏里的东西都是虚拟的",
+            },
+            {
+              value: 2,
+              label: "首冲的那八元可以冲，偶尔充个月卡，超过30块不干",
+            },
+            {
+              value: 3,
+              label:
+                "遇到特别喜欢的皮肤会忍不住，但事后会后悔，明明花这个钱能买好多东西，算了，多用几次也赚回来了",
+            },
+            {
+              value: 4,
+              label:
+                "我就是这种人！虚拟财产也是财产，游戏里花188买回来的衣服还不用洗呢，什么，你说用这个188可以买这么多吃的，原来少吃这些东西就能买一个皮肤啊",
+            },
+          ],
+        },
+        {
+          id: 12,
+          text: "你在超市看到一款新出的零食，包装很吸引人，但价格比同类贵一倍，你会？",
+          options: [
+            {
+              value: 1,
+              label:
+                "拿起手机搜同款，看看网上有没有便宜的，绝不当冤大头，食物最后都要变成屎拉出来",
+            },
+            {
+              value: 2,
+              label: "放回去，买平替的，味道差不多就行，反正我也吃不出好坏",
+            },
+            {
+              value: 3,
+              label: "纠结半天，最后还是买了，就当尝鲜，一两次也吃不穷",
+            },
+            {
+              value: 4,
+              label:
+                "直接拿两包，贵有贵的道理，我要对自己好一点，不尝试怎么知道好吃不好吃",
+            },
+          ],
+        },
+        {
+          id: 13,
+          text: "你同事天天点30块的奶茶，你觉得？",
+          options: [
+            { value: 1, label: "太浪费了，我自己带水杯喝白开水，健康又省钱" },
+            { value: 2, label: "偶尔馋买一杯，但大部分时间忍住" },
+            { value: 3, label: "一周喝两三次，算是对自己的小奖励" },
+            {
+              value: 4,
+              label: "每天一杯，不喝感觉这一天白过了，我赚钱就是为了花的",
+            },
+          ],
+        },
+        {
+          id: 14,
+          text: "你看到网上有人说'你看起来是那种平时舍不得吃舍不得穿，但最后攒钱买车买房的人'，你觉得自己更像？",
+          options: [
+            {
+              value: 1,
+              label: "不，我连车都不想买，能走路绝不坐车，能坐公交绝不打车",
+            },
+            { value: 2, label: "确实会攒钱买大件，但必须是实用且有长期价值的" },
+            {
+              value: 3,
+              label:
+                "我会攒钱买一个超出我消费能力但让我开心的大件（比如车、包、相机）",
+            },
+            {
+              value: 4,
+              label: "我不攒钱，我活在当下，想买什么就买什么，绝不委屈自己",
+            },
+          ],
+        },
+      ];
+
+      // 结果映射（根据总分范围）
+      const results = [
+        {
+          min: 14,
+          max: 24,
+          type: "🔪 我要把钱花在刀尖上！",
+          desc: "虽然我看起来很穷，不穿名牌喝不起星巴克，但是实际上就是如此。吃的东西好不好看不重要，好吃就好了，我不想去有氛围感的餐厅吃好看但是不好吃的漂亮饭，我更喜欢在家中或者平凡小店享受性价比高的食物。我喜欢看着银行卡中稳步增长的数字，这些数字比花里胡哨的衣服，比片刻的享受让我感到更安心，我不是抠门，我只是有自己真正的追求和热爱，因为这样才能当我在面对自己喜欢的人和事物时，不必瞻前顾后的后悔，而是拥有一举拿下的勇气。",
+        },
+        {
+          min: 25,
+          max: 35,
+          type: "⚔️ 我要把钱花在刀刃上！",
+          desc: "开源节流是你的消费座右铭，一味开源和一味节流都不是你的style，你相信只有两者配合才是真正的生活王者。你会在各个网络货比三家，会在街上买东西的时候和老板砍价，你坚信只买对的不买贵的，钱可以花但是不能多花，你从来不会因为过度网购被'掏空钱包'困扰，因为你不会允许自己有被掏空的机会，或许比起因为一时的冲动而掏空钱包，站在川西雪山和喜欢歌手的演唱会内场的快乐才是你真正想要的。",
+        },
+        {
+          min: 36,
+          max: 46,
+          type: "✨ 我要把钱花在刀背上！",
+          desc: "你就是那种会深夜激情下单，然后第二天早上醒来火速申请退货的人。主打一个'来都来了、大过节的'。直播间喊一句'最后三件'，你就按耐不住；博主说一句'对自己好一点'，你就立刻清空购物车。你经常在深夜翻看自己的购物记录，然后发出灵魂拷问：'我居然买过这玩意儿？！' 你每次没钱的时候气冲冲点开账单查询，发现还真是自己花的。你的消费观念很简单，千金难买我开心嘛，钱赚了就是拿来花的，至于花没了的话那再去挣不就好了，人生在世不就是活一个体验嘛，把自己累一辈子就为了那种钢筋水泥混凝土的人生太没意义了，比起压缩自己平常的欲望只换取那一时的满足的话，我还是更愿意在人生的每一刻都拥有更好的生活体验。",
+        },
+        {
+          min: 47,
+          max: 56,
+          type: "💸 我要把钱花在刀把上！",
+          desc: "你不想死，也想去巴黎。你的年度账单，一半是刚需，一半是'我也不知道我为什么要买这个，但它让我开心了'。你总是在一些别人完全无法理解的地方花钱，为氛围感花钱为品牌溢价花钱，为博美人一笑的潇洒值得你一掷千金，但是只要不超前消费，我为了自己的喜欢和欲望买单有什么错，我相信，只有会花钱的人才会挣钱，我花出去的钱都会成为鼓励我挣钱的动力。",
+        },
+      ];
+
+      // ==================== 应用状态 ====================
+      let currentIndex = 0; // 当前第几题（0-index）
+      let answers = new Array(questions.length).fill(null); // 存储每道题的得分
+
+      // DOM 元素
+      const homePage = document.getElementById("homePage");
+      const testPage = document.getElementById("testPage");
+      const resultPage = document.getElementById("resultPage");
+      const startBtn = document.getElementById("startBtn");
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+      const restartBtn = document.getElementById("restartBtn");
+      const questionText = document.getElementById("questionText");
+      const optionsContainer = document.getElementById("optionsContainer");
+      const progressBar = document.getElementById("progressBar");
+
+      // 辅助函数：保存到 localStorage
+      function saveProgress() {
+        localStorage.setItem("xfti_answers", JSON.stringify(answers));
+        localStorage.setItem("xfti_currentIndex", currentIndex);
+      }
+
+      // 辅助函数：加载进度
+      function loadProgress() {
+        const savedAnswers = localStorage.getItem("xfti_answers");
+        const savedIndex = localStorage.getItem("xfti_currentIndex");
+        if (savedAnswers) {
+          answers = JSON.parse(savedAnswers);
+        }
+        if (savedIndex && parseInt(savedIndex) < questions.length) {
+          currentIndex = parseInt(savedIndex);
+        }
+      }
+
+      // 清除进度
+      function clearProgress() {
+        localStorage.removeItem("xfti_answers");
+        localStorage.removeItem("xfti_currentIndex");
+        answers = new Array(questions.length).fill(null);
+        currentIndex = 0;
+      }
+
+      // 渲染当前题目
+      function renderQuestion() {
+        const q = questions[currentIndex];
+        questionText.textContent = `${currentIndex + 1}. ${q.text}`;
+
+        // 生成选项
+        let optionsHtml = "";
+        q.options.forEach((opt, idx) => {
+          const isSelected = answers[currentIndex] === opt.value;
+          const selectedClass = isSelected ? "selected" : "";
+          optionsHtml += `
+                    <div class="option ${selectedClass}" data-value="${opt.value}">
+                        ${String.fromCharCode(65 + idx)}. ${opt.label}
+                    </div>
+                `;
+        });
+        optionsContainer.innerHTML = optionsHtml;
+
+        // 绑定选项点击事件
+        document.querySelectorAll(".option").forEach((optDiv) => {
+          optDiv.addEventListener("click", (e) => {
+            const value = parseInt(optDiv.dataset.value);
+            answers[currentIndex] = value;
+            saveProgress();
+            renderQuestion(); // 重新渲染以更新选中样式
+          });
+        });
+
+        // 更新进度条
+        const progressPercent = ((currentIndex + 1) / questions.length) * 100;
+        progressBar.style.width = `${progressPercent}%`;
+
+        // 上一题/下一题按钮状态
+        prevBtn.disabled = currentIndex === 0;
+        prevBtn.style.opacity = currentIndex === 0 ? "0.5" : "1";
+      }
+
+      // 计算总分并显示结果
+      function showResult() {
+        // 检查是否所有题目都答完了
+        if (answers.some((a) => a === null)) {
+          alert("请先完成所有题目！");
+          return false;
+        }
+
+        const totalScore = answers.reduce((sum, val) => sum + val, 0);
+        // 根据总分找到对应的结果
+        let result = results.find(
+          (r) => totalScore >= r.min && totalScore <= r.max,
+        );
+        if (!result) result = results[0]; // fallback
+
+        // 显示结果页
+        document.getElementById("resultType").textContent = result.type;
+        document.getElementById("resultDesc").textContent = result.desc;
+
+        homePage.classList.add("hidden");
+        testPage.classList.add("hidden");
+        resultPage.classList.remove("hidden");
+
+        // 可选：清除进度（测试完成后）
+        // clearProgress();
+        return true;
+      }
+
+      // 重新开始
+      function restart() {
+        clearProgress();
+        homePage.classList.remove("hidden");
+        testPage.classList.add("hidden");
+        resultPage.classList.add("hidden");
+        currentIndex = 0;
+        answers = new Array(questions.length).fill(null);
+      }
+
+      // 事件绑定
+      startBtn.addEventListener("click", () => {
+        loadProgress(); // 加载之前的进度
+        // 如果有未完成的测试，继续
+        homePage.classList.add("hidden");
+        testPage.classList.remove("hidden");
+        renderQuestion();
+      });
+
+      prevBtn.addEventListener("click", () => {
+        if (currentIndex > 0) {
+          currentIndex--;
+          renderQuestion();
+          saveProgress();
+        }
+      });
+
+      nextBtn.addEventListener("click", () => {
+        if (answers[currentIndex] === null) {
+          alert("请先选择答案");
+          return;
+        }
+        if (currentIndex === questions.length - 1) {
+          // 最后一题，显示结果
+          showResult();
+        } else {
+          currentIndex++;
+          renderQuestion();
+          saveProgress();
+        }
+      });
+
+      restartBtn.addEventListener("click", () => {
+        restart();
+      });
+
+      // 初始加载时检查是否有未完成测试
+      window.addEventListener("load", () => {
+        loadProgress();
+        const hasProgress = answers.some((a) => a !== null);
+        if (hasProgress && confirm("检测到未完成的测试，是否继续？")) {
+          startBtn.click();
+        }
+      });
+    </script>
+  </body>
+</html>
