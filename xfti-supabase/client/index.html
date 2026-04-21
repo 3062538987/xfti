@@ -155,6 +155,347 @@
 
       .restart-btn {
         margin-top: 24px;
+        border-radius: 30px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 12px 24px;
+      }
+
+      .dimension-panel {
+        margin-top: 18px;
+        padding: 14px;
+        border-radius: 16px;
+        background: #f7f8ff;
+      }
+
+      .dimension-panel-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #4c4383;
+        margin-bottom: 16px;
+      }
+
+      .chart-switcher {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+
+      .chart-btn {
+        border: 1px solid #dcd7ff;
+        background: white;
+        color: #534894;
+        border-radius: 999px;
+        padding: 7px 10px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .chart-btn.active {
+        border-color: transparent;
+        color: white;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+
+      .dimension-list {
+        display: grid;
+        gap: 24px;
+      }
+
+      .dimension-card {
+        background: white;
+        border-radius: 12px;
+        border: 1px solid #eceaff;
+        padding: 10px;
+        cursor: pointer;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease,
+          border-color 0.2s ease;
+      }
+
+      .dimension-card:hover {
+        transform: scale(1.02);
+        box-shadow: 0 8px 16px rgba(84, 68, 154, 0.08);
+      }
+
+      .dimension-card.active {
+        border-color: #8d7fd4;
+        box-shadow: 0 0 0 2px #e5e0ff;
+      }
+
+      .dimension-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 13px;
+      }
+
+      .dimension-name {
+        color: #353049;
+        font-size: 18px;
+        font-weight: 700;
+      }
+
+      .dimension-score {
+        color: #5d52a8;
+        font-size: 28px;
+        font-weight: 700;
+        line-height: 1;
+      }
+
+      .dimension-bar {
+        height: 8px;
+        background: #efedff;
+        border-radius: 999px;
+        margin-top: 8px;
+        overflow: hidden;
+      }
+
+      .dimension-fill {
+        height: 100%;
+        border-radius: 999px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+
+      .dimension-meta {
+        margin-top: 12px;
+        font-size: 14px;
+        font-weight: 400;
+        color: #6d6497;
+      }
+
+      .ring-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .ring-card {
+        background: white;
+        border: 1px solid #eceaff;
+        border-radius: 12px;
+        padding: 10px;
+        display: grid;
+        place-items: center;
+        gap: 6px;
+        cursor: pointer;
+      }
+
+      .ring-card.active {
+        border-color: #8d7fd4;
+        box-shadow: 0 0 0 2px #e5e0ff;
+      }
+
+      .ring-name {
+        font-size: 12px;
+        font-weight: 600;
+        color: #433b74;
+      }
+
+      .ring-score {
+        font-size: 12px;
+        color: #6b6197;
+      }
+
+      .radar-wrap {
+        background: white;
+        border: 1px solid #eceaff;
+        border-radius: 12px;
+        padding: 8px;
+      }
+
+      .radar-legend {
+        margin-top: 8px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .radar-chip {
+        border: 1px solid #d9d4fa;
+        background: #f8f7ff;
+        border-radius: 999px;
+        padding: 4px 8px;
+        font-size: 11px;
+        color: #5a4f98;
+        cursor: pointer;
+      }
+
+      .radar-chip.active {
+        color: white;
+        border-color: transparent;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+
+      .dimension-tooltip {
+        position: fixed;
+        z-index: 40;
+        pointer-events: none;
+        min-width: 180px;
+        max-width: 260px;
+        padding: 8px 10px;
+        border-radius: 10px;
+        font-size: 12px;
+        line-height: 1.4;
+        color: white;
+        background: rgba(48, 39, 90, 0.94);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.18);
+      }
+
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        background: rgba(0, 0, 0, 0.45);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+      }
+
+      .modal-overlay.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .modal-card {
+        width: 90%;
+        max-width: 400px;
+        border-radius: 24px;
+        padding: 18px 16px;
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid #eceaff;
+        box-shadow: 0 16px 30px rgba(43, 35, 83, 0.2);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        transform: scale(0.95);
+        opacity: 0;
+        transition:
+          transform 0.24s ease,
+          opacity 0.24s ease;
+      }
+
+      .modal-overlay.open .modal-card {
+        transform: scale(1);
+        opacity: 1;
+      }
+
+      .modal-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .modal-title {
+        color: #3f3772;
+        font-size: 18px;
+        font-weight: 700;
+      }
+
+      .modal-close {
+        width: 32px;
+        height: 32px;
+        border-radius: 999px;
+        border: 1px solid #d8d2ff;
+        background: white;
+        color: #4f4595;
+        font-size: 18px;
+        line-height: 1;
+        cursor: pointer;
+      }
+
+      .modal-score {
+        margin-top: 12px;
+        color: #5c53a7;
+        font-size: 40px;
+        font-weight: 800;
+        line-height: 1;
+      }
+
+      .modal-score-unit {
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      .modal-copy {
+        margin-top: 10px;
+        color: #554e78;
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .modal-tip {
+        margin-top: 10px;
+        border-radius: 12px;
+        background: #f5f3ff;
+        padding: 10px;
+        color: #4f4595;
+        font-size: 13px;
+      }
+
+      .modal-ok {
+        margin-top: 14px;
+        background: #f5f5f5;
+        border: 1px solid #d0d0d0;
+        color: #333;
+      }
+
+      .modal-ok:hover {
+        opacity: 0.95;
+      }
+
+      .share-hint {
+        margin-top: 18px;
+        padding: 14px;
+        border-radius: 14px;
+        background: #f2f3f5;
+        border: 1px solid #e1e3e8;
+        color: #4a4f5e;
+        text-align: center;
+      }
+
+      .share-hint-tag {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 6px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+        color: white;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+
+      .share-hint-text {
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .share-hint-sub {
+        margin-top: 4px;
+        font-size: 12px;
+        color: #6b6197;
+      }
+
+      @keyframes shareHintPulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.24);
+        }
+
+        70% {
+          box-shadow: 0 0 0 10px rgba(102, 126, 234, 0);
+        }
+
+        100% {
+          box-shadow: 0 0 0 0 rgba(102, 126, 234, 0);
+        }
       }
 
       /* 辅助类 */
@@ -177,7 +518,7 @@
           class="text-center"
           style="margin-bottom: 32px; color: #888; font-size: 14px"
         >
-          14题 · 测测你的消费人格
+          18题 · 测测你的消费人格
         </div>
         <button class="btn btn-primary" id="startBtn">开始测试</button>
       </div>
@@ -203,6 +544,40 @@
       <div id="resultPage" class="card hidden">
         <div class="result-type" id="resultType"></div>
         <div class="result-desc" id="resultDesc"></div>
+        <div class="dimension-panel">
+          <div class="dimension-panel-title">你的消费画像</div>
+          <div class="chart-switcher" id="chartSwitcher">
+            <button class="chart-btn active" data-style="A">进度条</button>
+            <button class="chart-btn" data-style="B">环形图</button>
+            <button class="chart-btn" data-style="C">雷达图</button>
+          </div>
+          <div id="dimensionList" class="dimension-list"></div>
+          <div id="dimensionTooltip" class="dimension-tooltip hidden"></div>
+        </div>
+
+        <div id="dimensionModal" class="modal-overlay" aria-hidden="true">
+          <div class="modal-card" role="dialog" aria-modal="true">
+            <div class="modal-head">
+              <div class="modal-title" id="modalTitle"></div>
+              <button class="modal-close" id="modalCloseBtn" aria-label="关闭">
+                ×
+              </button>
+            </div>
+            <div class="modal-score">
+              <span id="modalScore"></span
+              ><span class="modal-score-unit">%</span>
+            </div>
+            <div class="modal-copy" id="modalCopy"></div>
+            <div class="modal-tip" id="modalTip"></div>
+            <button class="btn modal-ok" id="modalOkBtn">知道了</button>
+          </div>
+        </div>
+
+        <div class="share-hint">
+          <div class="share-hint-tag">裂变推荐</div>
+          <div class="share-hint-text">截图发朋友圈，看看朋友是什么人格？</div>
+          <div class="share-hint-sub">手动截图即可分享，不需要授权登录</div>
+        </div>
         <button class="btn btn-primary restart-btn" id="restartBtn">
           重新测试
         </button>
@@ -500,31 +875,170 @@
             },
           ],
         },
+        {
+          id: 15,
+          text: "月底只剩300块，你被临时拉去一次聚会（人均200+），你会？",
+          options: [
+            {
+              value: 1,
+              label: "直接拒绝，下个月有预算再说，先把现金流稳住",
+            },
+            {
+              value: 2,
+              label: "去，但提前设好上限，超过预算就不加单",
+            },
+            {
+              value: 3,
+              label: "先去再说，花了再省回来，开心最重要",
+            },
+            {
+              value: 4,
+              label: "直接刷信用卡或花呗，社交局不能输",
+            },
+          ],
+        },
+        {
+          id: 16,
+          text: "你发现自己开了好几个自动续费（视频、音乐、云盘、健身等），你会？",
+          options: [
+            {
+              value: 1,
+              label: "立刻盘点并关闭不用的，只保留刚需服务",
+            },
+            {
+              value: 2,
+              label: "保留高频使用的，低频服务改成按月续费",
+            },
+            {
+              value: 3,
+              label: "先续着吧，哪天想到再整理",
+            },
+            {
+              value: 4,
+              label: "懒得管，自动扣款省得我做决定",
+            },
+          ],
+        },
+        {
+          id: 17,
+          text: "你喜欢的博主出了限量联名款，价格不低，你会？",
+          options: [
+            {
+              value: 1,
+              label: "不为人设买单，除非我本来就缺这个品类",
+            },
+            {
+              value: 2,
+              label: "先看衣柜/家里现有物品，能替代就不买",
+            },
+            {
+              value: 3,
+              label: "如果真的喜欢且能用上，就买一次当奖励",
+            },
+            {
+              value: 4,
+              label: "直接抢，限量本身就是价值，错过会后悔",
+            },
+          ],
+        },
+        {
+          id: 18,
+          text: "买电子产品时，商家说'无票更便宜'，你通常会？",
+          options: [
+            {
+              value: 1,
+              label: "必须要发票和正规保修，贵一点也接受",
+            },
+            {
+              value: 2,
+              label: "优先正规渠道，但会比较活动价和赠品",
+            },
+            {
+              value: 3,
+              label: "如果差价明显，会考虑无票渠道",
+            },
+            {
+              value: 4,
+              label: "只看便宜，不太在意票据和渠道来源",
+            },
+          ],
+        },
       ];
+
+      // 多维度模型（4主类型下的细分画像）
+      const dimensionModel = {
+        D1: {
+          name: "冲动触发敏感度",
+          highTrait: "容易被情绪或场景触发消费",
+          lowTrait: "冲动控制能力较强",
+        },
+        D2: {
+          name: "预算与性价比执行",
+          highTrait: "预算执行稳定，重视性价比",
+          lowTrait: "预算执行偏松，随性消费更多",
+        },
+        D3: {
+          name: "长期规划导向",
+          highTrait: "偏长期目标和资金安全",
+          lowTrait: "偏即时体验和当下满足",
+        },
+        D4: {
+          name: "关系与身份消费驱动",
+          highTrait: "更愿意为关系和身份表达买单",
+          lowTrait: "关系消费边界更清晰",
+        },
+        D5: {
+          name: "规则与正版合规倾向",
+          highTrait: "更尊重版权、规则和正规渠道",
+          lowTrait: "更偏向低成本替代路径",
+        },
+      };
+
+      // 每道题映射到一个子维度，选项对应权重：-2 / -1 / +1 / +2
+      const dimensionQuestionMap = {
+        1: { dimension: "D1", weights: [-2, -1, 1, 2] },
+        2: { dimension: "D2", weights: [2, 1, 0, -2] },
+        3: { dimension: "D2", weights: [1, 2, 0, -2] },
+        4: { dimension: "D2", weights: [-1, 2, 1, -2] },
+        5: { dimension: "D1", weights: [-2, -1, 1, 2] },
+        6: { dimension: "D1", weights: [-2, -1, 1, 2] },
+        7: { dimension: "D4", weights: [-2, -1, 1, 2] },
+        8: { dimension: "D3", weights: [1, 2, 1, -2] },
+        9: { dimension: "D5", weights: [-2, -1, 1, 2] },
+        10: { dimension: "D5", weights: [-2, -1, 1, 2] },
+        11: { dimension: "D4", weights: [-2, -1, 1, 2] },
+        12: { dimension: "D2", weights: [2, 1, -1, -2] },
+        13: { dimension: "D2", weights: [2, 1, -1, -2] },
+        14: { dimension: "D3", weights: [1, 2, -1, -2] },
+        15: { dimension: "D3", weights: [2, 1, -1, -2] },
+        16: { dimension: "D2", weights: [2, 1, -1, -2] },
+        17: { dimension: "D4", weights: [-2, -1, 1, 2] },
+        18: { dimension: "D5", weights: [2, 1, -1, -2] },
+      };
 
       // 结果映射（根据总分范围）
       const results = [
         {
-          min: 14,
-          max: 24,
+          min: 18,
+          max: 31,
           type: "🔪 我要把钱花在刀尖上！",
           desc: "虽然我看起来很穷，不穿名牌喝不起星巴克，但是实际上就是如此。吃的东西好不好看不重要，好吃就好了，我不想去有氛围感的餐厅吃好看但是不好吃的漂亮饭，我更喜欢在家中或者平凡小店享受性价比高的食物。我喜欢看着银行卡中稳步增长的数字，这些数字比花里胡哨的衣服，比片刻的享受让我感到更安心，我不是抠门，我只是有自己真正的追求和热爱，因为这样才能当我在面对自己喜欢的人和事物时，不必瞻前顾后的后悔，而是拥有一举拿下的勇气。",
         },
         {
-          min: 25,
-          max: 35,
+          min: 32,
+          max: 45,
           type: "⚔️ 我要把钱花在刀刃上！",
           desc: "开源节流是你的消费座右铭，一味开源和一味节流都不是你的style，你相信只有两者配合才是真正的生活王者。你会在各个网络货比三家，会在街上买东西的时候和老板砍价，你坚信只买对的不买贵的，钱可以花但是不能多花，你从来不会因为过度网购被'掏空钱包'困扰，因为你不会允许自己有被掏空的机会，或许比起因为一时的冲动而掏空钱包，站在川西雪山和喜欢歌手的演唱会内场的快乐才是你真正想要的。",
         },
         {
-          min: 36,
-          max: 46,
+          min: 46,
+          max: 59,
           type: "✨ 我要把钱花在刀背上！",
           desc: "你就是那种会深夜激情下单，然后第二天早上醒来火速申请退货的人。主打一个'来都来了、大过节的'。直播间喊一句'最后三件'，你就按耐不住；博主说一句'对自己好一点'，你就立刻清空购物车。你经常在深夜翻看自己的购物记录，然后发出灵魂拷问：'我居然买过这玩意儿？！' 你每次没钱的时候气冲冲点开账单查询，发现还真是自己花的。你的消费观念很简单，千金难买我开心嘛，钱赚了就是拿来花的，至于花没了的话那再去挣不就好了，人生在世不就是活一个体验嘛，把自己累一辈子就为了那种钢筋水泥混凝土的人生太没意义了，比起压缩自己平常的欲望只换取那一时的满足的话，我还是更愿意在人生的每一刻都拥有更好的生活体验。",
         },
         {
-          min: 47,
-          max: 56,
+          min: 60,
+          max: 72,
           type: "💸 我要把钱花在刀把上！",
           desc: "你不想死，也想去巴黎。你的年度账单，一半是刚需，一半是'我也不知道我为什么要买这个，但它让我开心了'。你总是在一些别人完全无法理解的地方花钱，为氛围感花钱为品牌溢价花钱，为博美人一笑的潇洒值得你一掷千金，但是只要不超前消费，我为了自己的喜欢和欲望买单有什么错，我相信，只有会花钱的人才会挣钱，我花出去的钱都会成为鼓励我挣钱的动力。",
         },
@@ -545,6 +1059,331 @@
       const questionText = document.getElementById("questionText");
       const optionsContainer = document.getElementById("optionsContainer");
       const progressBar = document.getElementById("progressBar");
+      const dimensionList = document.getElementById("dimensionList");
+      const chartSwitcher = document.getElementById("chartSwitcher");
+      const dimensionTooltip = document.getElementById("dimensionTooltip");
+      const dimensionModal = document.getElementById("dimensionModal");
+      const modalTitle = document.getElementById("modalTitle");
+      const modalScore = document.getElementById("modalScore");
+      const modalCopy = document.getElementById("modalCopy");
+      const modalTip = document.getElementById("modalTip");
+      const modalCloseBtn = document.getElementById("modalCloseBtn");
+      const modalOkBtn = document.getElementById("modalOkBtn");
+
+      let currentChartStyle = "A";
+      let currentDimensionScores = [];
+      let activeDimensionKey = null;
+
+      function getDimensionLevel(score) {
+        if (score >= 75) return "高";
+        if (score >= 45) return "中";
+        return "低";
+      }
+
+      function calculateDimensionScores(answerList) {
+        const rawScores = {};
+        const questionCount = {};
+
+        Object.keys(dimensionModel).forEach((key) => {
+          rawScores[key] = 0;
+          questionCount[key] = 0;
+        });
+
+        answerList.forEach((answer, index) => {
+          const qid = index + 1;
+          const mapping = dimensionQuestionMap[qid];
+          if (!mapping || answer === null) return;
+
+          const weight = mapping.weights[answer - 1] ?? 0;
+          rawScores[mapping.dimension] += weight;
+          questionCount[mapping.dimension] += 1;
+        });
+
+        return Object.entries(dimensionModel).map(([key, meta]) => {
+          const minScore = -2 * questionCount[key];
+          const maxScore = 2 * questionCount[key];
+          const normalized =
+            maxScore === minScore
+              ? 50
+              : Math.round(
+                  ((rawScores[key] - minScore) / (maxScore - minScore)) * 100,
+                );
+
+          return {
+            key,
+            name: meta.name,
+            normalized,
+            level: getDimensionLevel(normalized),
+            trait: normalized >= 50 ? meta.highTrait : meta.lowTrait,
+          };
+        });
+      }
+
+      function getDimensionByKey(scoreList, key) {
+        return scoreList.find((item) => item.key === key) || null;
+      }
+
+      function getModalCopy(item) {
+        const playfulText = {
+          D1: {
+            high: "你像'促销雷达'，对限时和情绪场景反应很快，容易当场完成下单。",
+            mid: "你在冲动和克制之间切换灵活，偶尔会被氛围带节奏。",
+            low: "你对消费刺激有较强免疫，通常先判断必要性再决策。",
+          },
+          D2: {
+            high: "你是预算型选手，价格、价值和使用率都会被你认真审视。",
+            mid: "你有预算意识，但在忙碌或疲惫时会偶尔放松标准。",
+            low: "你更偏体验派，预算约束感较弱，容易出现随手消费。",
+          },
+          D3: {
+            high: "你偏长期主义，做消费决策时会自动联想到未来收益。",
+            mid: "你兼顾现在和未来，属于可调节型规划人格。",
+            low: "你更重当下感受，消费决策常以即时满足为优先。",
+          },
+          D4: {
+            high: "你愿意为关系和身份表达买单，社交互动是你的消费动力之一。",
+            mid: "你在关系投入上较理性，会看情境和对方反馈再决定投入。",
+            low: "你的关系消费边界清晰，倾向先满足个人价值再考虑外部期待。",
+          },
+          D5: {
+            high: "你对规则和合规很敏感，消费决策更看重长期安心感。",
+            mid: "你会在合规与成本之间权衡，追求一个现实可行的平衡点。",
+            low: "你更重价格效率，容易优先选择成本最低的方案。",
+          },
+        };
+
+        const adviceText = {
+          D1: {
+            high: "建议：设置'24小时冷静期'和购物车二次确认，减少情绪型下单。",
+            mid: "建议：把高频触发场景（深夜、直播）设置预算上限。",
+            low: "建议：保持理性优势，同时预留少量'快乐预算'防止过度克制。",
+          },
+          D2: {
+            high: "建议：继续维护月度分类预算，你的复利节省潜力很高。",
+            mid: "建议：将可选消费设成固定额度，避免月末被动压缩。",
+            low: "建议：从一个动作开始，每月先存10%，再进行弹性消费。",
+          },
+          D3: {
+            high: "建议：为中长期目标建立专门账户，强化你的规划优势。",
+            mid: "建议：使用'固定储蓄+自由消费'双账户模型。",
+            low: "建议：把大目标拆成小里程碑，提升长期执行可持续性。",
+          },
+          D4: {
+            high: "建议：先定关系消费上限，表达心意同时守住边界。",
+            mid: "建议：继续保持有来有往原则，减少单向高投入。",
+            low: "建议：可尝试小额高质量投入，提升关系体验回报。",
+          },
+          D5: {
+            high: "建议：在高价品类保持正规渠道优先，延续风险控制优势。",
+            mid: "建议：给课程和电子产品设'正版预算池'，降低临场纠结。",
+            low: "建议：高风险类目优先正规渠道，避免售后与版权隐性成本。",
+          },
+        };
+
+        const levelKey =
+          item.level === "高" ? "high" : item.level === "中" ? "mid" : "low";
+        return {
+          playful: playfulText[item.key][levelKey],
+          advice: adviceText[item.key][levelKey],
+        };
+      }
+
+      function openDimensionModal(item) {
+        if (!item) return;
+        const copy = getModalCopy(item);
+        modalTitle.textContent = `${item.name}（${item.level}倾向）`;
+        modalScore.textContent = item.normalized;
+        modalCopy.textContent = copy.playful;
+        modalTip.textContent = copy.advice;
+        dimensionModal.classList.add("open");
+        dimensionModal.setAttribute("aria-hidden", "false");
+      }
+
+      function closeDimensionModal() {
+        dimensionModal.classList.remove("open");
+        dimensionModal.setAttribute("aria-hidden", "true");
+      }
+
+      function showTooltip(event, item) {
+        dimensionTooltip.classList.remove("hidden");
+        dimensionTooltip.textContent = `${item.name}：${item.normalized}分（${item.level}）`;
+        moveTooltip(event);
+      }
+
+      function moveTooltip(event) {
+        const offset = 14;
+        dimensionTooltip.style.left = `${event.clientX + offset}px`;
+        dimensionTooltip.style.top = `${event.clientY + offset}px`;
+      }
+
+      function hideTooltip() {
+        dimensionTooltip.classList.add("hidden");
+      }
+
+      function renderBars(scoreList) {
+        const sorted = [...scoreList].sort(
+          (a, b) => b.normalized - a.normalized,
+        );
+        dimensionList.className = "dimension-list";
+        dimensionList.innerHTML = sorted
+          .map(
+            (item) => `
+              <div class="dimension-card ${item.key === activeDimensionKey ? "active" : ""}" data-dimension-key="${item.key}">
+                <div class="dimension-head">
+                  <span class="dimension-name">${item.name}</span>
+                  <span class="dimension-score">${item.normalized}</span>
+                </div>
+                <div class="dimension-bar">
+                  <div class="dimension-fill" style="width: ${item.normalized}%"></div>
+                </div>
+                <div class="dimension-meta">${item.level}倾向 · ${item.trait}</div>
+              </div>
+            `,
+          )
+          .join("");
+      }
+
+      function renderRings(scoreList) {
+        const circumference = 2 * Math.PI * 28;
+        dimensionList.className = "ring-grid";
+        dimensionList.innerHTML = scoreList
+          .map((item) => {
+            const progress = (item.normalized / 100) * circumference;
+            return `
+              <div class="ring-card ${item.key === activeDimensionKey ? "active" : ""}" data-dimension-key="${item.key}">
+                <svg width="90" height="90" viewBox="0 0 90 90" aria-label="${item.name}">
+                  <circle cx="45" cy="45" r="28" stroke="#edeaff" stroke-width="8" fill="none"></circle>
+                  <circle cx="45" cy="45" r="28" stroke="#667eea" stroke-width="8" fill="none" stroke-linecap="round"
+                    stroke-dasharray="${circumference.toFixed(2)}"
+                    stroke-dashoffset="${(circumference - progress).toFixed(2)}"
+                    transform="rotate(-90 45 45)">
+                  </circle>
+                  <text x="45" y="50" text-anchor="middle" font-size="14" font-weight="700" fill="#4f4595">${item.normalized}</text>
+                </svg>
+                <div class="ring-name">${item.name}</div>
+                <div class="ring-score">${item.level}倾向</div>
+              </div>
+            `;
+          })
+          .join("");
+      }
+
+      function getRadarPoint(cx, cy, radius, angle, value) {
+        const r = radius * (value / 100);
+        return {
+          x: cx + r * Math.cos(angle),
+          y: cy + r * Math.sin(angle),
+        };
+      }
+
+      function renderRadar(scoreList) {
+        const width = 330;
+        const height = 300;
+        const cx = width / 2;
+        const cy = 140;
+        const radius = 95;
+        const levels = [20, 40, 60, 80, 100];
+        const count = scoreList.length;
+        const angleStep = (Math.PI * 2) / count;
+
+        const levelPolygons = levels
+          .map((lv) => {
+            const pts = scoreList
+              .map((_, idx) => {
+                const angle = -Math.PI / 2 + idx * angleStep;
+                const p = getRadarPoint(cx, cy, radius, angle, lv);
+                return `${p.x.toFixed(1)},${p.y.toFixed(1)}`;
+              })
+              .join(" ");
+            return `<polygon points="${pts}" fill="none" stroke="#e7e3ff" stroke-width="1"></polygon>`;
+          })
+          .join("");
+
+        const spokes = scoreList
+          .map((_, idx) => {
+            const angle = -Math.PI / 2 + idx * angleStep;
+            const p = getRadarPoint(cx, cy, radius, angle, 100);
+            return `<line x1="${cx}" y1="${cy}" x2="${p.x.toFixed(1)}" y2="${p.y.toFixed(1)}" stroke="#ece9ff" stroke-width="1"></line>`;
+          })
+          .join("");
+
+        const dataPoints = scoreList.map((item, idx) => {
+          const angle = -Math.PI / 2 + idx * angleStep;
+          const p = getRadarPoint(cx, cy, radius, angle, item.normalized);
+          return {
+            ...item,
+            x: p.x,
+            y: p.y,
+          };
+        });
+
+        const dataPolygon = dataPoints
+          .map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`)
+          .join(" ");
+
+        const labels = scoreList
+          .map((item, idx) => {
+            const angle = -Math.PI / 2 + idx * angleStep;
+            const p = getRadarPoint(cx, cy, radius + 22, angle, 100);
+            return `<text x="${p.x.toFixed(1)}" y="${p.y.toFixed(1)}" text-anchor="middle" font-size="11" fill="#5d52a8">${item.key}</text>`;
+          })
+          .join("");
+
+        const pointNodes = dataPoints
+          .map(
+            (p) =>
+              `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${p.key === activeDimensionKey ? 6 : 4}" fill="#5f72d9" stroke="white" stroke-width="2" data-dimension-key="${p.key}"></circle>`,
+          )
+          .join("");
+
+        const chips = scoreList
+          .map(
+            (item) =>
+              `<button class="radar-chip ${item.key === activeDimensionKey ? "active" : ""}" data-dimension-key="${item.key}">${item.name} ${item.normalized}</button>`,
+          )
+          .join("");
+
+        dimensionList.className = "";
+        dimensionList.innerHTML = `
+          <div class="radar-wrap">
+            <svg width="100%" viewBox="0 0 ${width} ${height}" role="img" aria-label="维度雷达图">
+              ${levelPolygons}
+              ${spokes}
+              <polygon points="${dataPolygon}" fill="rgba(102,126,234,0.25)" stroke="#667eea" stroke-width="2"></polygon>
+              ${pointNodes}
+              ${labels}
+            </svg>
+            <div class="radar-legend">${chips}</div>
+          </div>
+        `;
+      }
+
+      function renderDimensionScores(scoreList) {
+        if (!scoreList || scoreList.length === 0) return;
+        currentDimensionScores = scoreList;
+        if (!activeDimensionKey) {
+          const top = [...scoreList].sort(
+            (a, b) => b.normalized - a.normalized,
+          )[0];
+          activeDimensionKey = top.key;
+        }
+
+        if (currentChartStyle === "A") {
+          renderBars(scoreList);
+        } else if (currentChartStyle === "B") {
+          renderRings(scoreList);
+        } else {
+          renderRadar(scoreList);
+        }
+      }
+
+      function switchChartStyle(style) {
+        currentChartStyle = style;
+        chartSwitcher.querySelectorAll(".chart-btn").forEach((btn) => {
+          btn.classList.toggle("active", btn.dataset.style === style);
+        });
+        renderDimensionScores(currentDimensionScores);
+      }
 
       // 辅助函数：保存到 localStorage
       function saveProgress() {
@@ -557,7 +1396,19 @@
         const savedAnswers = localStorage.getItem("xfti_answers");
         const savedIndex = localStorage.getItem("xfti_currentIndex");
         if (savedAnswers) {
-          answers = JSON.parse(savedAnswers);
+          try {
+            const parsed = JSON.parse(savedAnswers);
+            answers = new Array(questions.length).fill(null);
+            if (Array.isArray(parsed)) {
+              parsed.slice(0, questions.length).forEach((val, idx) => {
+                if ([1, 2, 3, 4].includes(val)) {
+                  answers[idx] = val;
+                }
+              });
+            }
+          } catch (_error) {
+            answers = new Array(questions.length).fill(null);
+          }
         }
         if (savedIndex && parseInt(savedIndex) < questions.length) {
           currentIndex = parseInt(savedIndex);
@@ -627,6 +1478,8 @@
         // 显示结果页
         document.getElementById("resultType").textContent = result.type;
         document.getElementById("resultDesc").textContent = result.desc;
+        const dimensionScores = calculateDimensionScores(answers);
+        renderDimensionScores(dimensionScores);
 
         homePage.classList.add("hidden");
         testPage.classList.add("hidden");
@@ -640,6 +1493,7 @@
       // 重新开始
       function restart() {
         clearProgress();
+        closeDimensionModal();
         homePage.classList.remove("hidden");
         testPage.classList.add("hidden");
         resultPage.classList.add("hidden");
@@ -681,6 +1535,71 @@
 
       restartBtn.addEventListener("click", () => {
         restart();
+      });
+
+      chartSwitcher.addEventListener("click", (event) => {
+        const btn = event.target.closest(".chart-btn");
+        if (!btn) return;
+        switchChartStyle(btn.dataset.style);
+      });
+
+      dimensionList.addEventListener("click", (event) => {
+        const trigger = event.target.closest("[data-dimension-key]");
+        if (!trigger) return;
+        activeDimensionKey = trigger.dataset.dimensionKey;
+        renderDimensionScores(currentDimensionScores);
+        const selected = getDimensionByKey(
+          currentDimensionScores,
+          activeDimensionKey,
+        );
+        openDimensionModal(selected);
+      });
+
+      modalCloseBtn.addEventListener("click", closeDimensionModal);
+      modalOkBtn.addEventListener("click", closeDimensionModal);
+
+      dimensionModal.addEventListener("click", (event) => {
+        if (event.target === dimensionModal) {
+          closeDimensionModal();
+        }
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (
+          event.key === "Escape" &&
+          dimensionModal.classList.contains("open")
+        ) {
+          closeDimensionModal();
+        }
+      });
+
+      dimensionList.addEventListener("mouseover", (event) => {
+        const trigger = event.target.closest("[data-dimension-key]");
+        if (!trigger) return;
+        const item = getDimensionByKey(
+          currentDimensionScores,
+          trigger.dataset.dimensionKey,
+        );
+        if (!item) return;
+        showTooltip(event, item);
+      });
+
+      dimensionList.addEventListener("mousemove", (event) => {
+        if (!dimensionTooltip.classList.contains("hidden")) {
+          moveTooltip(event);
+        }
+      });
+
+      dimensionList.addEventListener("mouseout", (event) => {
+        const related = event.relatedTarget;
+        if (
+          related &&
+          related.closest &&
+          related.closest("[data-dimension-key]")
+        ) {
+          return;
+        }
+        hideTooltip();
       });
 
       // 初始加载时检查是否有未完成测试
